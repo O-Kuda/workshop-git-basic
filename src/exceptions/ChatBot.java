@@ -17,18 +17,22 @@ public class ChatBot {
             return "Argument not supported: ";
         }
         try {
-            Optional<String> oTemperature = handleTemperature(commandOne, commandTwo);
-            if (oTemperature.isPresent()) {
-                return oTemperature.get();
-            }
-            Optional<String> oLight = handleLight(commandOne, commandTwo);
-            if (oLight.isPresent()) {
-                return oLight.get();
-            }
-            throw new WrongFirstArgumentException(commandOne);
+            return handleAllCommands(commandOne, commandTwo);
         } catch (WrongFirstArgumentException | WrongSecondArgumentException e) {
             return "Argument not supported: " + e.getMessage();
         }
+    }
+
+    String handleAllCommands(String commandOne, String commandTwo) throws WrongSecondArgumentException, WrongFirstArgumentException {
+        Optional<String> oTemperature = handleTemperature(commandOne, commandTwo);
+        if (oTemperature.isPresent()) {
+            return oTemperature.get();
+        }
+        Optional<String> oLight = handleLight(commandOne, commandTwo);
+        if (oLight.isPresent()) {
+            return oLight.get();
+        }
+        throw new WrongFirstArgumentException(commandOne);
     }
 
     Optional<String> handleTemperature(String commandOne, String commandTwo) throws WrongSecondArgumentException {
